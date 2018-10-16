@@ -54,10 +54,20 @@ class PgbouncerMetricsCollector():
                 results = self._filterMetricsByIncludeDatabases(results, self.config.getIncludeDatabases())
                 results = self._filterMetricsByExcludeDatabases(results, self.config.getExcludeDatabases())
                 metrics += self._exportMetrics(results, "pgbouncer_stats_", [
-                    {"type": "counter", "column": "total_requests",   "metric": "queries_total",                 "help": "Total number of SQL queries pooled by pgbouncer"},
-                    {"type": "counter", "column": "total_query_time", "metric": "queries_duration_microseconds", "help": "Total number of microseconds spent by pgbouncer when actively connected to PostgreSQL"},
-                    {"type": "counter", "column": "total_received",   "metric": "received_bytes_total",          "help": "Total volume in bytes of network traffic received by pgbouncer"},
-                    {"type": "counter", "column": "total_sent",       "metric": "sent_bytes_total",              "help": "Total volume in bytes of network traffic sent by pgbouncer"},
+                    # pgbouncer < 1.8
+                    {"type": "counter", "column": "total_requests",   "metric": "requests_total",                      "help": ""},
+
+                    # pgbouncer >= 1.8
+                    {"type": "counter", "column": "total_xact_count",  "metric": "transactions_total",                 "help": ""},
+                    {"type": "counter", "column": "total_query_count", "metric": "queries_total",                      "help": ""},
+                    {"type": "counter", "column": "total_xact_time",   "metric": "transactions_duration_microseconds", "help": ""},
+                    {"type": "counter", "column": "total_query_time",  "metric": "queries_duration_microseconds",      "help": ""},
+                    {"type": "counter", "column": "total_wait_time",   "metric": "waiting_duration_microseconds",      "help": ""},
+
+                    # all versions
+                    {"type": "counter", "column": "total_received",   "metric": "received_bytes_total",                "help": "Total volume in bytes of network traffic received by pgbouncer"},
+                    {"type": "counter", "column": "total_sent",       "metric": "sent_bytes_total",                    "help": "Total volume in bytes of network traffic sent by pgbouncer"},
+
                 ], {"database": "database"}, self.config.getExtraLabels())
             else:
                 success = False
