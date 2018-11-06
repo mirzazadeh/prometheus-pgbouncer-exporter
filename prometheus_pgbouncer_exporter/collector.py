@@ -66,7 +66,8 @@ class PgbouncerMetricsCollector():
 
                     # all versions
                     {"type": "counter", "column": "total_received",   "metric": "received_bytes_total",                "help": "Total volume in bytes of network traffic received by pgbouncer"},
-                    {"type": "counter", "column": "total_sent",       "metric": "sent_bytes_total",                    "help": "Total volume in bytes of network traffic sent by pgbouncer"},
+                    {"type": "counter", "column": "total_received",   "metric": "received_bytes_total",                "help": "Total volume in bytes of network traffic received by pgbouncer"},
+                    {"type": "counter", "column": "avg_query_time",       "metric": "avg_query_time",                    "help": "Total volume in bytes of network traffic sent by pgbouncer"},
 
                 ], {"database": "database"}, self.config.getExtraLabels())
             else:
